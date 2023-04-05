@@ -1,0 +1,86 @@
+vue.js framework =js+html - mixed
+
+основа вьюжс компоненты , из них строится интерфейс приложения
+
+vetur
+npm install -g @vue/cli or @vue-cli
+vue create vue-project
+npm run serve
+auto close tag
+
+vue devtools
+<template>
+    <div>
+        все остальное
+        <post-form 
+      @add="addPost"
+    ></post-form>
+    <h2>Post list</h2>
+    <post-list :posts="posts"
+    
+    @del="deletePost">     
+    </post-list> - подключили компоненты там где они нужны
+    </div>
+</template>
+
+
+
+<script>
+import postList from "@/components/post-list.vue"
+import postForm from "@/components/post-form.vue"
+
+!export default {
+  !components: { postList, postForm }, - подключаем сторонние компоненты из которых состоит этот компонент
+  name: 'App',
+ !! data(){
+    return {переменные и объекты}
+    }
+        methods:{
+            r(){
+                функция только без слова функтион и в фигурных скобках
+            }
+        }
+
+в файлах детях в функциях чтобы в них работали функции пишем ${}
+methods:{
+        deletePost(id){
+            this.$emit('del',id)
+        }
+    }, 
+
+    ... - делает как бы отвязку одного объекта от другого, когда нужно СКОПИРОВАТЬ ОБЪЕКТ
+
+    props:{
+        posts:{
+            type:Array,
+            default(){
+                return []
+            },
+            required:false,
+        },
+        пропсы принимают в дочернем компоненте данные от родителя
+
+    черех пропсы получаем данные от родителя к дочернему, через эмит - от дочки к родителю
+        methods:{
+        deletePost(id){
+            this.$emit('del',id)
+        }
+    }, - в дочке 
+
+        deletePost(id){
+      this.posts.splice(id,1)
+    }
+    <post-list :posts="posts"
+    
+    @del="deletePost">     
+    </post-list> - в родителе - в теге с названием дочернего компонента  через собаку обращаемся к событию дел которое вызовет функцию в родителе
+
+    <input  
+      type="text"  
+      placeholder="post name"
+      v-model="post.title"> - вимодел чтобы привязать инпут к тайтлу объекта пост
+
+data и хуки в жс-части, это оказывается ФУНКЦИИ, а вот методы это объект с функциями нашими лол
+
+created - тут вызываем функции для подгрузки файлов
+computed - всегда нужен ретерн этим фунциям внутри - вычисляемые значения типа фильтра/сортировки
